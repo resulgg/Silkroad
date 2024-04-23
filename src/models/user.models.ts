@@ -1,5 +1,4 @@
 import {
-  integer,
   text,
   boolean,
   pgTable,
@@ -7,7 +6,6 @@ import {
   varchar,
   timestamp,
   primaryKey,
-  unique,
 } from "drizzle-orm/pg-core";
 
 export const user = pgTable("user", {
