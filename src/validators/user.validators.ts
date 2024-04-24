@@ -20,3 +20,12 @@ export const signUpSchema = z.object({
     .max(150, { message: "Biography cannot be more than 150 characters." })
     .optional()
 });
+
+export const loginSchema = z.object({
+  username: z
+    .string()
+    .max(15, { message: "Username cannot be more than 15 characters." }),
+  password: z
+    .string()
+    .max(64, { message: "Password cannot be more than 64 characters." })
+});

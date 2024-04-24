@@ -22,3 +22,10 @@ export const getUserByUsername = async (username: string) => {
   });
   return data;
 };
+
+export const getUserById = async (id: string) => {
+  const data = await db.query.user.findFirst({
+    where: eq(user.id, id)
+  });
+  return data;
+};

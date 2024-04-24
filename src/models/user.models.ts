@@ -32,7 +32,7 @@ export const follow = pgTable(
       .references(() => user.id),
     followingId: uuid("following_id")
       .notNull()
-      .references(() => user.id, { onDelete: "cascade" })
+      .references(() => user.id)
   },
   (table) => {
     return {
