@@ -7,6 +7,7 @@ import {
   timestamp,
   primaryKey
 } from "drizzle-orm/pg-core";
+import { post } from "./post.models";
 
 export const user = pgTable("user", {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -17,27 +18,22 @@ export const user = pgTable("user", {
   password: varchar("password", { length: 64 }).notNull(),
   bio: varchar("bio", { length: 150 }),
   createdAt: timestamp("created_at").notNull().defaultNow(),
-  updatedAt: timestamp("updated_at", { mode: "date", precision: 3 })
-    .notNull()
-    .$onUpdate(() => new Date())
+  updatedAt: timestamp("updated_at").$onUpdateFn(() => new Date())
 });
 
 export const userRelations = relations(user, ({ many }) => ({
   following: many(follow, { relationName: "following" }),
   follower: many(follow, { relationName: "follower" }),
   blocked: many(block, { relationName: "blocked" }),
-  blockedBy: many(block, { relationName: "blockedBy" })
+  blockedBy: many(block, { relationName: "blockedBy" }),
+  post: many(post, { relationName: "post" })
 }));
 
 export const follow = pgTable(
   "follow",
   {
-    followerId: uuid("follower_id")
-      .notNull()
-      .references(() => user.id),
-    followingId: uuid("following_id")
-      .notNull()
-      .references(() => user.id)
+    followerId: uuid("follower_id").notNull(),
+    followingId: uuid("following_id").notNull()
   },
   (table) => {
     return {
@@ -61,12 +57,8 @@ export const followRelations = relations(follow, ({ one }) => ({
 
 export const block = pgTable("block", {
   id: uuid("id").primaryKey().defaultRandom(),
-  userId: uuid("user_id")
-    .notNull()
-    .references(() => user.id),
-  blockedBy: uuid("blocked_by")
-    .notNull()
-    .references(() => user.id),
+  userId: uuid("user_id").notNull(),
+  blockedBy: uuid("blocked_by").notNull(),
   description: varchar("description", { length: 255 }),
   createdAt: timestamp("created_at").notNull().defaultNow()
 });
