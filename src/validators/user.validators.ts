@@ -33,6 +33,7 @@ export const loginSchema = z.object({
 export const usernameSchema = z.object({
   username: z.string().max(36, { message: "Invalid user id." })
 });
+
 export const userIdSchema = z.object({
   id: z.string().max(36, { message: "Invalid user id." })
 });

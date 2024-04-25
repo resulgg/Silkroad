@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS "comment" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
-	"user_id" uuid NOT NULL,
+	"user_id" uuid,
 	"post_id" uuid NOT NULL,
 	"description" text,
 	"created_at" timestamp DEFAULT now() NOT NULL,

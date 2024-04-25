@@ -1,7 +1,8 @@
-import { eq } from "drizzle-orm";
+import { eq, isNull } from "drizzle-orm";
 import db from "../db";
 import { post } from "../models/post.models";
 import { PostData, PostUpdateData } from "../types/post";
+import { comment } from "../models/comment.models";
 
 export const savePost = async (userId: string, postData: PostData) => {
   const data = await db
@@ -19,7 +20,9 @@ export const getPostDetailsById = async (postId: string) => {
   const data = await db.query.post.findFirst({
     where: eq(post.id, postId),
     with: {
-      comment: true
+      comment: {
+        where: isNull(comment.parentId)
+      }
     }
   });
   return data;
@@ -46,7 +49,10 @@ export const updatePostById = async (
 
 export const getPosts = async () => {
   const data = await db.query.post.findMany({
-    limit: 15
+    limit: 15,
+    with: {
+      comment: true
+    }
   });
   return data;
 };

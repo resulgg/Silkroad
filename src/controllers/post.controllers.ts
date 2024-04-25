@@ -50,7 +50,7 @@ export const getPostDetails = async (req: Request, res: Response) => {
   }
   try {
     const postDetails = await getPostDetailsById(postIdData.data.id);
-
+    console.log(postDetails);
     if (!postDetails) {
       return res
         .status(500)
@@ -59,6 +59,7 @@ export const getPostDetails = async (req: Request, res: Response) => {
 
     return res.status(200).json(postDetails);
   } catch (err) {
+    console.log(err);
     return res.status(500).json({ error: "Internal server error." });
   }
 };

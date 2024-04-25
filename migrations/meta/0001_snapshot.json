@@ -1,6 +1,6 @@
 {
-  "id": "cb7efcdc-4876-4bd1-9df1-024582690ee9",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "2df963bf-4951-4d2e-95e9-ce96fb81682c",
+  "prevId": "cb7efcdc-4876-4bd1-9df1-024582690ee9",
   "version": "5",
   "dialect": "pg",
   "tables": {
@@ -19,13 +19,19 @@
           "name": "user_id",
           "type": "uuid",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "post_id": {
           "name": "post_id",
           "type": "uuid",
           "primaryKey": false,
           "notNull": true
+        },
+        "parent_id": {
+          "name": "parent_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
         },
         "description": {
           "name": "description",
