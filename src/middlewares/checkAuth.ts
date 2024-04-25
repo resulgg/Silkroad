@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { getUserById } from "../services/user.services";
 import { JwtPayloadId } from "../types/token";
+
 export const checkAuth = async (
   req: Request,
   res: Response,
@@ -12,7 +13,7 @@ export const checkAuth = async (
 
     if (!token) {
       return res
-        .status(400)
+        .status(401)
         .json({ error: "Unauthorized: no token provided." });
     }
 

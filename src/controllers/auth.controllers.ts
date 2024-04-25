@@ -42,10 +42,12 @@ export const signUp = async (req: Request, res: Response) => {
       .returning({ id: user.id });
     if (newUser) {
       generateTokenAndSetCookie(newUser[0].id, res);
-      res.status(201).json({ message: "New user has been signedup." });
+      return res.status(201).json({ message: "New user has been signed up." });
     }
   } catch (err) {
-    return res.status(500).json({ error: "User failed to signup" });
+    return res
+      .status(500)
+      .json({ error: "Internal server eror. User failed to signup." });
   }
 };
 
@@ -59,6 +61,7 @@ export const logIn = async (req: Request, res: Response) => {
 
   try {
     const user = await getUserByUsername(loginData.data.username);
+
     if (!user) {
       return res.status(400).json({ error: "Invalid username or password" });
     }
@@ -67,21 +70,38 @@ export const logIn = async (req: Request, res: Response) => {
       loginData.data.password,
       user.password
     );
+
     if (!isPasswordValid) {
       return res.status(400).json({ error: "Invalid username or password" });
     }
+
     generateTokenAndSetCookie(user.id, res);
-    res.status(200).json({ message: "Authentication completed successfully" });
+
+    return res
+      .status(200)
+      .json({ message: "Authentication completed successfully" });
   } catch (error) {
-    return res.status(500).json({ error: "User failed to login" });
+    return res
+      .status(500)
+      .json({ error: "Internal server error. Please try again." });
   }
 };
 
 export const logOut = async (req: Request, res: Response) => {
   try {
     res.clearCookie("jwt");
-    res.status(200).json({ message: "Logged out successfully" });
+    return res.status(200).json({ message: "Logged out successfully." });
   } catch (err) {
-    res.status(500).json({ error: "User failed to logout" });
+    return res
+      .status(500)
+      .json({ error: "Internal server error. Please try again." });
   }
+};
+
+export const getMe = async (req: Request, res: Response) => {
+  const user = req.user;
+  if (!user) {
+    return res.status(400).json({ error: "Invalid user" });
+  }
+  return res.status(200).json(user);
 };

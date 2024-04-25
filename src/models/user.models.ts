@@ -1,6 +1,6 @@
+import { relations } from "drizzle-orm";
 import {
   text,
-  boolean,
   pgTable,
   uuid,
   varchar,
@@ -14,15 +14,20 @@ export const user = pgTable("user", {
   username: varchar("username", { length: 15 }).notNull().unique(),
   image: text("image"),
   email: varchar("email", { length: 64 }).notNull().unique(),
-  emailVerified: boolean("email_verified").default(false),
   password: varchar("password", { length: 64 }).notNull(),
   bio: varchar("bio", { length: 150 }),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at", { mode: "date", precision: 3 })
     .notNull()
-    .$onUpdate(() => new Date()),
-  isTwoFactorEnabled: boolean("is_two_factor_enabled").default(false)
+    .$onUpdate(() => new Date())
 });
+
+export const userRelations = relations(user, ({ many }) => ({
+  following: many(follow, { relationName: "following" }),
+  follower: many(follow, { relationName: "follower" }),
+  blocked: many(block, { relationName: "blocked" }),
+  blockedBy: many(block, { relationName: "blockedBy" })
+}));
 
 export const follow = pgTable(
   "follow",
@@ -41,6 +46,19 @@ export const follow = pgTable(
   }
 );
 
+export const followRelations = relations(follow, ({ one }) => ({
+  follower: one(user, {
+    fields: [follow.followerId],
+    references: [user.id],
+    relationName: "follower"
+  }),
+  following: one(user, {
+    fields: [follow.followingId],
+    references: [user.id],
+    relationName: "following"
+  })
+}));
+
 export const block = pgTable("block", {
   id: uuid("id").primaryKey().defaultRandom(),
   userId: uuid("user_id")
@@ -53,16 +71,15 @@ export const block = pgTable("block", {
   createdAt: timestamp("created_at").notNull().defaultNow()
 });
 
-export const token = pgTable("token", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  email: varchar("email", { length: 64 }).notNull(),
-  token: text("token").notNull(),
-  expires: timestamp("expires").notNull()
-});
-
-export const twoFactorConfirmation = pgTable("two_factor_confirmation", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  userId: uuid("user_id")
-    .notNull()
-    .references(() => user.id)
-});
+export const blockRelations = relations(block, ({ one }) => ({
+  blocked: one(user, {
+    fields: [block.userId],
+    references: [user.id],
+    relationName: "blocked"
+  }),
+  blockedBy: one(user, {
+    fields: [block.blockedBy],
+    references: [user.id],
+    relationName: "blockedBy"
+  })
+}));
