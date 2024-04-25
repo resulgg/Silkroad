@@ -2,6 +2,7 @@ import { Router } from "express";
 import user from "./user.routes";
 import auth from "./auth.routes";
 import post from "./post.routes";
+import { checkAuth } from "../middlewares/checkAuth";
 
 const router = Router();
 
@@ -10,6 +11,7 @@ router.use("/health", (req, res) => {
 });
 
 router.use("/auth", auth);
-router.use("/users", user);
-router.use("/posts", post);
+router.use("/users", checkAuth, user);
+router.use("/posts", checkAuth, post);
+
 export default router;

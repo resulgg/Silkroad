@@ -2,7 +2,7 @@ import { neon } from "@neondatabase/serverless";
 import { drizzle } from "drizzle-orm/neon-http";
 import dotenv from "dotenv";
 import * as user from "../models/user.models";
-import { post } from "../models/post.models";
+import * as post from "../models/post.models";
 
 dotenv.config();
 

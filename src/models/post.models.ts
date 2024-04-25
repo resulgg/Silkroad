@@ -1,11 +1,4 @@
-import {
-  AnyPgColumn,
-  pgTable,
-  text,
-  timestamp,
-  uuid,
-  varchar
-} from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 import { user } from "./user.models";
 import { relations } from "drizzle-orm";
 

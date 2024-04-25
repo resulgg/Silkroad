@@ -19,7 +19,7 @@ import {
   userSchema
 } from "../validators/user.validators";
 
-export const getTenUser = async (req: Request, res: Response) => {
+export const getUsers = async (req: Request, res: Response) => {
   try {
     const users = await getAllUsers();
     if (!users) {

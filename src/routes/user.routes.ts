@@ -2,22 +2,21 @@ import { Router } from "express";
 import {
   banUserById,
   followUserById,
-  getTenUser,
+  getUsers,
   getUserDetailsByUsername,
   unBanUserById,
   unfollowUserById,
   updateUserProfile
 } from "../controllers/user.controllers";
-import { checkAuth } from "../middlewares/checkAuth";
 
 const router = Router();
 
-router.get("/", checkAuth, getTenUser);
-router.get("/:username", checkAuth, getUserDetailsByUsername);
-router.put("/:id/update", checkAuth, updateUserProfile);
-router.post("/:id/follow", checkAuth, followUserById);
-router.post("/:id/unfollow", checkAuth, unfollowUserById);
-router.post("/ban", checkAuth, banUserById);
-router.post("/:id/unban", checkAuth, unBanUserById);
+router.get("/", getUsers);
+router.get("/:username", getUserDetailsByUsername);
+router.put("/:id/update", updateUserProfile);
+router.post("/:id/follow", followUserById);
+router.post("/:id/unfollow", unfollowUserById);
+router.post("/ban", banUserById);
+router.post("/:id/unban", unBanUserById);
 
 export default router;
