@@ -1,7 +1,7 @@
 {
   "name": "silkroad",
   "version": "1.0.0",
-  "description": "",
+  "description": "A CRUD API built with Express.js and TypeScript",
   "main": "index.js",
   "scripts": {
     "test": "jest --watch",
@@ -15,7 +15,7 @@
     "prettier-format": "prettier --config .prettierrc ./src/**/*.ts --write"
   },
   "keywords": [],
-  "author": "",
+  "author": "Resul",
   "license": "ISC",
   "dependencies": {
     "@neondatabase/serverless": "^0.9.1",
