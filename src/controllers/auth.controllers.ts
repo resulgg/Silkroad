@@ -9,6 +9,7 @@ import { generateTokenAndSetCookie } from "../utils/generateToken";
 export const signUp = async (req: Request, res: Response) => {
   const data = req.body;
   const signUpData = signUpSchema.safeParse(data);
+  const test1 = true;
 
   if (!signUpData.success) {
     return res.status(400).json({ error: signUpData.error.issues });
