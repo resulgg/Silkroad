@@ -1,0 +1,10 @@
+# Start Generation Here
+node_modules
+.env
+/dist
+Dockerfile
+docker-compose.yml
+*.log
+*.tmp
+*.cache
+# End Generation Here
